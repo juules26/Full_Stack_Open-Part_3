@@ -1,7 +1,7 @@
 {
   "name": "phonebook_backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node phonebook_backend/server.js",
     "dev": "nodemon server.js --delay 1000ms"
