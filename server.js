@@ -30,6 +30,10 @@ app.use(morgan(':method :url :status :response-time ms :req-body'))
 
 morgan.token('req-body', (request) => JSON.stringify(request.body))
 
+app.get('/', (request, response) => {
+  response.send('Welcome to the Phonebook :-)')
+})
+
 app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
@@ -37,7 +41,7 @@ app.get('/api/persons', (request, response) => {
 app.get('/api/info', (request, response) => {
   const listLength = persons.length
   const date = new Date().toString()
-  const message = `Phonebook has info for ${listLength} peope <br/><br/>${date}`
+  const message = `Phonebook has info for ${listLength} people <br/><br/>${date}`
 
   response.send(message)
 })
@@ -97,7 +101,7 @@ app.post('/api/persons',(request, response) => {
   response.status(201).json(person)
 })
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
