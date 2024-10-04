@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
 
 let persons = [
   { 
@@ -29,6 +30,7 @@ let persons = [
 app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :response-time ms :req-body'))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 morgan.token('req-body', (request) => JSON.stringify(request.body))
 
@@ -101,6 +103,10 @@ app.post('/api/persons',(request, response) => {
   persons.push(person)
   console.log(`${person.name} added to contacts`)
   response.status(201).json(person)
+})
+
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
 const PORT = process.env.PORT || 3001;
