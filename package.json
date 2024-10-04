@@ -4,13 +4,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js --delay 1000ms"
+    "dev": "nodemon server.js --delay 1000ms",
+    "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Link to Render app:\r https://full-stack-open-part-3-u7hx.onrender.com/",
   "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "express": "^4.21.0",
     "morgan": "^1.10.0"
   },
