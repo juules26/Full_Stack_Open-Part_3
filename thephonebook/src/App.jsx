@@ -3,7 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonList from './components/PersonList'
 import phonebookService from './services/phonebook'
-import './app.css'
+import './App.css'
 
 const App = (props) => {
   const [persons, setPersons] = useState([])
