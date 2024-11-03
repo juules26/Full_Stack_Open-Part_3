@@ -5,16 +5,21 @@ import morgan, { token } from 'morgan';
 import cors from 'cors';
 import { join } from 'path';
 import Person from './models/phonebook.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 config();
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.use(cors());
 app.use(json());
 app.use(morgan(':method :url :status :response-time ms :req-body'));
 app.use(express.static(join(__dirname, 'dist')));
 
 token('req-body', (request) => JSON.stringify(request.body));
+
 
 const url = process.env.MONGODB_URI;
 mongoose.connect(url)
