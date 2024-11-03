@@ -5,7 +5,7 @@ const app = express()
 import morgan, { token } from 'morgan'
 import cors from 'cors'
 import { join } from 'path'
-import Person, { find, countDocuments, findById, findByIdAndUpdate } from './models/phonebook' // importa el modelo
+import Person, { find, countDocuments, findById, findByIdAndUpdate } from './models/phonebook.js' // importa el modelo
 
 // let persons = [
 //   { 
