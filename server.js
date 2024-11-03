@@ -140,7 +140,7 @@ app.get('*', (request, response) => {
   response.sendFile(join(__dirname, 'dist', 'index.html'))
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
