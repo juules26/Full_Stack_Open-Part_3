@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+config();
 import mongoose from 'mongoose';
 import express, { json } from 'express';
 import morgan, { token } from 'morgan';
@@ -8,8 +9,7 @@ import Person from './models/phonebook.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-config();
-
+console.log('MONGODB_URI ISSSSSSSSSS:', process.env.MONGODB_URI)
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
