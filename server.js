@@ -35,7 +35,7 @@ app.get('/', (request, response) => {
 })
 
 // Fetch all persons from MongoDB
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
   Person.find({}) // Busca todos los documentos en la coleccion
     .then(persons => {
       response.json(persons)
@@ -47,8 +47,8 @@ app.get('/api/persons', (request, response) => {
 })
 
 // Additional info 
-app.get('/api/info', (request, response) => {
-  countDocuments({})
+app.get('/api/info', (request, response, next) => {
+  Person.countDocuments({})
     .then(count => {
       const date = new Date().toString()
       const message = `Phonebook has info for ${count} people <br/><br/>${date}`
@@ -64,7 +64,7 @@ app.get('/api/info', (request, response) => {
 app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
-  findById(id)
+  Person.findById(id)
     .then(person => {
       if (person) {
         response.json(person)
@@ -82,7 +82,7 @@ app.put('/api/persons/:id', (request, response, next) => {
   const { number } = request.body //extract number from request body
   const id = request.params.id // get id from url
 
-  findByIdAndUpdate( id, { number }, { new: true } ) // searches database for person with specific id
+  Person.findByIdAndUpdate( id, { number }, { new: true } ) // searches database for person with specific id
     .then(updatedPerson => { // after finding and updating, .then() gets called with results of update
       if (updatedPerson) { // if person found and updated
         response.json(updatedPerson) // sends updated person to client (frontend) as a JSON response
@@ -97,7 +97,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
-  findById(id)
+  Person.findById(id)
     .then(person => {
       if (person) {
         console.log('Deleted person:', person)
