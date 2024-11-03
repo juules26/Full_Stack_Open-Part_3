@@ -9,7 +9,6 @@ import Person from './models/phonebook.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-console.log('MONGODB_URI ISSSSSSSSSS:', process.env.MONGODB_URI)
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
