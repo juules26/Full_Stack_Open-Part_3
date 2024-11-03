@@ -1,5 +1,5 @@
 // 1. Import mongoose library
-const mongoose = require('mongoose')
+import { connect, Schema, model, connection } from 'mongoose'
 
 // 2. Verify if there is password as argument
 if (process.argv.length < 3) {
@@ -12,15 +12,15 @@ const password = process.argv[2]
 const url = `mongodb+srv://juules26:${password}@cluster0.cvvzf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
 // 4. Connect to mongodb
-mongoose.connect(url)
+connect(url)
 
 // 5. Define Mongoose scheme
-const personSchema = new mongoose.Schema({
+const personSchema = new Schema({
     name: String,
     number: String
 })
 // Define scheme based model
-const Person = mongoose.model('Person', personSchema)
+const Person = model('Person', personSchema)
 
 // 6. Add or list people
 if (process.argv.length === 5) {
@@ -31,7 +31,7 @@ if (process.argv.length === 5) {
 
     person.save().then(() => {
         console.log(`added ${person.name} number ${person.number} to phonebook`)
-        mongoose.connection.close()
+        connection.close()
     })
 } else if (process.argv.length === 3) {
     // List all the people
@@ -40,6 +40,6 @@ if (process.argv.length === 5) {
         result.forEach(person => {
             console.log(`${person.name} ${person.number}`)
         });
-        mongoose.connection.close() // 7. Close connection
+        connection.close() // 7. Close connection
     })
 }
