@@ -140,6 +140,11 @@ app.get('*', (request, response) => {
   response.sendFile(join(__dirname, 'dist', 'index.html'))
 })
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
