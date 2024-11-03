@@ -1,11 +1,11 @@
-const dotenv = require('dotenv')
-dotenv.config()
-const express = require('express')
+import { config } from 'dotenv'
+config()
+import express, { json } from 'express'
 const app = express()
-const morgan = require('morgan')
-const cors = require('cors')
-const path = require('path')
-const Person = require('./models/phonebook') // importa el modelo
+import morgan, { token } from 'morgan'
+import cors from 'cors'
+import { join } from 'path'
+import Person, { find, countDocuments, findById, findByIdAndUpdate } from './models/phonebook' // importa el modelo
 
 // let persons = [
 //   { 
@@ -31,11 +31,11 @@ const Person = require('./models/phonebook') // importa el modelo
 // ];
 
 app.use(cors())
-app.use(express.json())
+app.use(json())
 app.use(morgan(':method :url :status :response-time ms :req-body'))
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(join(__dirname, 'dist')))
 
-morgan.token('req-body', (request) => JSON.stringify(request.body))
+token('req-body', (request) => JSON.stringify(request.body))
 
 // Home route
 app.get('/', (request, response) => {
@@ -44,7 +44,7 @@ app.get('/', (request, response) => {
 
 // Fetch all persons from MongoDB
 app.get('/api/persons', (request, response) => {
-  Person.find({}) // Busca todos los documentos en la coleccion
+  find({}) // Busca todos los documentos en la coleccion
     .then(persons => {
       response.json(persons)
     })
@@ -56,7 +56,7 @@ app.get('/api/persons', (request, response) => {
 
 // Additional info 
 app.get('/api/info', (request, response) => {
-  Person.countDocuments({})
+  countDocuments({})
     .then(count => {
       const date = new Date().toString()
       const message = `Phonebook has info for ${count} people <br/><br/>${date}`
@@ -72,7 +72,7 @@ app.get('/api/info', (request, response) => {
 app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
-  Person.findById(id)
+  findById(id)
     .then(person => {
       if (person) {
         response.json(person)
@@ -90,7 +90,7 @@ app.put('/api/persons/:id', (request, response, next) => {
   const { number } = request.body //extract number from request body
   const id = request.params.id // get id from url
 
-  Person.findByIdAndUpdate( id, { number }, { new: true } ) // searches database for person with specific id
+  findByIdAndUpdate( id, { number }, { new: true } ) // searches database for person with specific id
     .then(updatedPerson => { // after finding and updating, .then() gets called with results of update
       if (updatedPerson) { // if person found and updated
         response.json(updatedPerson) // sends updated person to client (frontend) as a JSON response
@@ -105,7 +105,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
 
-  Person.findById(id)
+  findById(id)
     .then(person => {
       if (person) {
         console.log('Deleted person:', person)
@@ -145,7 +145,7 @@ app.post('/api/persons', (request, response, next) => {
 
 // Fallback route for non-existent paths (for SPA)
 app.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  response.sendFile(join(__dirname, 'dist', 'index.html'))
 })
 
 const PORT = process.env.PORT;
