@@ -1,19 +1,29 @@
-import { config } from 'dotenv'
-import express, { json } from 'express'
-const app = express()
-import morgan, { token } from 'morgan'
-import cors from 'cors'
-import { join } from 'path'
-import Person from './models/phonebook.js'
+import { config } from 'dotenv';
+import mongoose from 'mongoose';
+import express, { json } from 'express';
+import morgan, { token } from 'morgan';
+import cors from 'cors';
+import { join } from 'path';
+import Person from './models/phonebook.js';
 
-config()
+config();
 
-app.use(cors())
-app.use(json())
-app.use(morgan(':method :url :status :response-time ms :req-body'))
-app.use(express.static(join(__dirname, 'dist')))
+const app = express();
+app.use(cors());
+app.use(json());
+app.use(morgan(':method :url :status :response-time ms :req-body'));
+app.use(express.static(join(__dirname, 'dist')));
 
-token('req-body', (request) => JSON.stringify(request.body))
+token('req-body', (request) => JSON.stringify(request.body));
+
+const url = process.env.MONGODB_URI;
+mongoose.connect(url)
+    .then(() => {
+        console.log('connected to MongoDB');
+    })
+    .catch(error => {
+        console.log('error connecting to MongoDB:', error.message);
+    });
 
 // Home route
 app.get('/', (request, response) => {
