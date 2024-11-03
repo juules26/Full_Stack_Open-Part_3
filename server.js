@@ -1,12 +1,12 @@
 import { config } from 'dotenv'
-config()
 import express, { json } from 'express'
 const app = express()
 import morgan, { token } from 'morgan'
 import cors from 'cors'
 import { join } from 'path'
-import { find, countDocuments, findById, findByIdAndUpdate } from './models/phonebook.js' 
 import Person from './models/phonebook.js'
+
+config()
 
 app.use(cors())
 app.use(json())
@@ -22,7 +22,7 @@ app.get('/', (request, response) => {
 
 // Fetch all persons from MongoDB
 app.get('/api/persons', (request, response) => {
-  find({}) // Busca todos los documentos en la coleccion
+  Person.find({}) // Busca todos los documentos en la coleccion
     .then(persons => {
       response.json(persons)
     })
